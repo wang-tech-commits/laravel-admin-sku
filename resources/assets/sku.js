@@ -245,28 +245,24 @@
     SKU.prototype.processSku = function () {
         let _this = this;
         let sku_json = {};
-        sku_json.type = _this.warp.find('.sku_attr_select .btn.btn-success').attr('data-type');
-        if (sku_json.type === 'many') {
-            // 多规格
-            sku_json.attrs = _this.attrs;
-            let sku = [];
-            _this.warp.find('.sku_edit_warp tbody tr').each(function () {
-                let tr = $(this);
-                let item_sku = {};
-                tr.find('td[data-field]').each(function () {
-                    let td = $(this);
-                    let field = td.attr('data-field');
-                    let input = td.find('input');
-                    if (input.length) {
-                        item_sku[field] = input.val();
-                    } else {
-                        item_sku[field] = td.text();
-                    }
-                });
-                sku.push(item_sku);
+        sku_json.attrs = _this.attrs;
+        let sku = [];
+        _this.warp.find('.sku_edit_warp tbody tr').each(function () {
+            let tr = $(this);
+            let item_sku = {};
+            tr.find('td[data-field]').each(function () {
+                let td = $(this);
+                let field = td.attr('data-field');
+                let input = td.find('input');
+                if (input.length) {
+                    item_sku[field] = input.val();
+                } else {
+                    item_sku[field] = td.text();
+                }
             });
-            sku_json.sku = sku;
-        }
+            sku.push(item_sku);
+        });
+        sku_json.sku = sku;
         _this.warp.find('.Js_sku_input').val(JSON.stringify(sku_json));
     };
 
