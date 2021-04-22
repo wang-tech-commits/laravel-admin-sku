@@ -26,6 +26,7 @@ class GoodsSkuServiceProvider extends ServiceProvider
                 [$assets => public_path('vendor/laravel-admin-ext/goods_sku')],
                 'goods_sku'
             );
+            $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations/');
         }
 
         Admin::booting(function () {
