@@ -1,9 +1,9 @@
 {
-    "name": "laravel-admin-ext/goods_sku",
+    "name": "wang-tech-commits/laravel-admin-sku",
     "description": "商品SKU",
     "type": "library",
     "keywords": ["laravel-admin", "extension"],
-    "homepage": "https://github.com/laravel-admin-ext/goods_sku",
+    "homepage": "https://github.com/wang-tech-commits/laravel-admin-sku",
     "license": "MIT",
     "authors": [
         {
