@@ -17,6 +17,7 @@ class CreateShopGoodsSkuConfigsTable extends Migration
             $table->id();
             $table->foreignId('goods_id');
             $table->json('sku_config');
+            $table->json('sku_attr_config');
             $table->timestamps();
         });
     }

@@ -12,6 +12,10 @@ class GoodsSku extends Model
 
     protected $table = 'shop_goods_skus';
 
+    protected $casts = [
+        'sku' => 'json',
+    ];
+
     public function goods()
     {
         return $this->belongsTo(Goods::class);
