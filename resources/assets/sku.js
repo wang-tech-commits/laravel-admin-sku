@@ -124,7 +124,7 @@
                 });
                 // 接着处理下一行
                 if (index < attr_keys_len - 1) {
-                    tr.find('td:eq(2) .Js_add_attr_name').trigger('click');
+                    tbody.find('tr').eq(0).find('td:eq(2) .Js_add_attr_name').trigger('click');
                 }
             });
             // 生成具体的SKU配置表单
