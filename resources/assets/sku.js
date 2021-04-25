@@ -103,41 +103,33 @@
         if (old_val) {
             // 根据值生成DOM
             old_val = JSON.parse(old_val);
-            if (old_val.type === 'many') {
-                // 多规格
-                _this.warp.find('.sku_attr_select .Js_many_btn').trigger('click');
-
-                // 处理规格名
-                let attr_names = old_val.attrs;
-                let tbody = _this.warp.find('.sku_attr_key_val tbody');
-                let attr_keys = Object.keys(attr_names);
-                let attr_keys_len = attr_keys.length;
-                attr_keys.forEach(function (attr_key, index) {
-                    // 规格名
-                    let tr = tbody.find('tr').eq(index);
-                    tr.find('td:eq(0) input').val(attr_key);
-
-                    // 规格值
-                    let attr_val_td = tr.find('td:eq(1)');
-                    let attr_vals = attr_names[attr_key];
-                    let attr_vals_len = attr_vals.length;
-                    attr_vals.forEach(function (attr_val, index_2) {
-                        attr_val_td.find('input').eq(index_2).val(attr_val);
-                        if (index_2 < attr_vals_len - 1) {
-                            attr_val_td.find('.Js_add_attr_val').trigger('click');
-                        }
-                    });
-
-                    // 接着处理下一行
-                    if (index < attr_keys_len - 1) {
-                        tr.find('td:eq(2) .Js_add_attr_name').trigger('click');
+            // 处理规格名
+            let attr_names = old_val.attrs;
+            let tbody = _this.warp.find('.sku_attr_key_val tbody');
+            let attr_keys = Object.keys(attr_names);
+            let attr_keys_len = attr_keys.length;
+            attr_keys.forEach(function (attr_key, index) {
+                // 规格名
+                let tr = tbody.find('tr').eq(index);
+                tr.find('td:eq(0) input').val(attr_key);
+                // 规格值
+                let attr_val_td = tr.find('td:eq(1)');
+                let attr_vals = attr_names[attr_key];
+                let attr_vals_len = attr_vals.length;
+                attr_vals.forEach(function (attr_val, index_2) {
+                    attr_val_td.find('input').eq(index_2).val(attr_val);
+                    if (index_2 < attr_vals_len - 1) {
+                        attr_val_td.find('.Js_add_attr_val').trigger('click');
                     }
                 });
-
-                // 生成具体的SKU配置表单
-                _this.attrs = old_val.attrs;
-                _this.SKUForm(old_val.sku);
-            }
+                // 接着处理下一行
+                if (index < attr_keys_len - 1) {
+                    tr.find('td:eq(2) .Js_add_attr_name').trigger('click');
+                }
+            });
+            // 生成具体的SKU配置表单
+            _this.attrs = old_val.attrs;
+            _this.SKUForm(old_val.sku);
         } else {
             _this.processSku()
         }
