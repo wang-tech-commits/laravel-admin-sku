@@ -17,12 +17,14 @@ class CreateShopGoodsSkusTable extends Migration
             $table->id();
             $table->foreignId('goods_id');
             $table->foreignId('goods_sku_config_id');
+            $table->string('uuid')->unique();
             $table->json('sku');
             $table->decimal('market_price', '20', '2');
             $table->decimal('price', '20', '2');
             $table->integer('stock')->unsigned();
             $table->string('cover')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

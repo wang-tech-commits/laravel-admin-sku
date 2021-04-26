@@ -4,6 +4,7 @@
         this.warp = $('.sku_warp')
         this.uploadHost = uploadHost;
         this.attrs = {};
+        this.commonSku = '';
         this.commonStock = 0; // 统一库存
         this.commonPrice = 0; // 统一价格
         this.commonMarketPrice = 0; // 统一市场价格
@@ -25,6 +26,7 @@
         // 绑定属性值移除事件
         _this.warp.find('.sku_attr_key_val').on('click', '.Js_remove_attr_val', function () {
             var sku_length = $(this).parents('.sku_attr_val_warp').children('.sku_attr_num').length;
+            console.log(sku_length);
             if (sku_length > 1) {
                 $(this).parent('.sku_attr_val_item').remove();
                 _this.getSkuAttr();
@@ -37,7 +39,7 @@
                 '<td><input type="text" class="form-control"></td>' +
                 '<td>' +
                 '<div class="sku_attr_val_warp">' +
-                '<div class="sku_attr_val_item">' +
+                '<div class="sku_attr_val_item sku_attr_num">' +
                 '<div class="sku_attr_val_input">' +
                 '<input type="text" class="form-control">' +
                 '</div>' +
@@ -177,6 +179,7 @@
             attr_names.forEach(function (attr_name) {
                 thead_html += '<th>' + attr_name + '</th>'
             });
+            thead_html += '<th style="display: none">sku</th>';
             thead_html += '<th style="width: 100px">图片</th>';
             thead_html += '<th style="width: 100px">市场价 <input value="' + _this.commonMarketPrice + '" type="text" style="width: 50px" class="Js_market_price"></th>';
             thead_html += '<th style="width: 100px">销售价 <input value="' + _this.commonPrice + '" type="text" style="width: 50px" class="Js_price"></th>';
@@ -205,6 +208,12 @@
                     let attr_name = attr_names[index];
                     tbody_html += '<td data-field="' + attr_name + '">' + attr_val + '</td>';
                 });
+                if (_this.commonSku == '') {
+                    var skuUuid = uuid();
+                } else {
+                    var skuUuid = _this.commonSku;
+                }
+                tbody_html += '<td data-field="sku_no" style="display: none"><input value="' + skuUuid + '" type="text" class="form-control"></td>';
                 tbody_html += '<td data-field="cover"><input value="" type="hidden" class="form-control"><span class="Js_sku_upload">+</span><span class="Js_sku_del_pic">清空</span></td>';
                 tbody_html += '<td data-field="marketprice"><input value="' + _this.commonMarketPrice + '" type="text" class="form-control"></td>';
                 tbody_html += '<td data-field="price"><input value="' + _this.commonPrice + '" type="text" class="form-control"></td>';
@@ -296,5 +305,18 @@
         }
     };
 
+    function  uuid() {
+        var  s = [];
+        var  hexDigits =  "0123456789abcdef" ;
+        for  ( var  i = 0; i < 36; i++) {
+            s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+        }
+        s[14] =  "4" ;   // bits 12-15 of the time_hi_and_version field to 0010
+        s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);   // bits 6-7 of the clock_seq_hi_and_reserved to 01
+        s[8] = s[13] = s[18] = s[23] =  "-" ;
+
+        var  uuid = s.join( "" );
+        return  uuid;
+    }
     window.GoodsSKU = SKU;
 })();
