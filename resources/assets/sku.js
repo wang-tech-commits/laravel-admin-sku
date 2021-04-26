@@ -26,7 +26,6 @@
         // 绑定属性值移除事件
         _this.warp.find('.sku_attr_key_val').on('click', '.Js_remove_attr_val', function () {
             var sku_length = $(this).parents('.sku_attr_val_warp').children('.sku_attr_num').length;
-            console.log(sku_length);
             if (sku_length > 1) {
                 $(this).parent('.sku_attr_val_item').remove();
                 _this.getSkuAttr();
@@ -162,7 +161,10 @@
 
         if (JSON.stringify(_this.attrs) !== JSON.stringify(attr)) {
             _this.attrs = attr;
-            _this.SKUForm()
+
+            let old_val = _this.warp.find('.Js_sku_input').val();
+            old_val = JSON.parse(old_val);
+            _this.SKUForm(old_val.sku)
         }
     };
 

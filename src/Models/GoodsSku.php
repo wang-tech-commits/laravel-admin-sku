@@ -4,11 +4,13 @@ namespace Encore\GoodsSku\Models;
 
 use App\Models\Model;
 use App\Traits\HasCovers;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Shop\Models\Goods;
 
 class GoodsSku extends Model
 {
-    use HasCovers;
+    use HasCovers,
+        SoftDeletes;
 
     protected $table = 'shop_goods_skus';
 
