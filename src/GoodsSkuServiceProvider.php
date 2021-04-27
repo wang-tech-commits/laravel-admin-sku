@@ -39,9 +39,4 @@ class GoodsSkuServiceProvider extends ServiceProvider
             GoodsSku::routes(__DIR__ . '/../routes/web.php');
         });
     }
-
-    public function register()
-    {
-        $this->app->register(RouteServiceProvider::class);
-    }
 }
