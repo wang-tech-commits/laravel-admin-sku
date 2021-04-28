@@ -9,18 +9,24 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th style="width: 100px">规格名</th>
+                        <th style="width: 150px">规格名</th>
                         <th>规格值</th>
                         <th style="width: 100px">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td><input type="text" class="form-control"></td>
+                        <td>
+                            <input type="text" class="form-control">
+                            <input type="checkbox" class="check-Image"> <span style="color: #0d6aad">添加规格图片</span>
+                        </td>
                         <td>
                             <div class="sku_attr_val_warp">
                                 <div class="sku_attr_val_item sku_attr_num">
                                     <div class="sku_attr_val_input">
+                                        <div class="sku_Image" style="display: none">
+                                            <input value="" type="hidden" class="form-control"><span class="Js_sku_upload">+</span>
+                                        </div>
                                         <input type="text" class="form-control">
                                     </div>
                                     <span class="btn btn-danger Js_remove_attr_val"><i

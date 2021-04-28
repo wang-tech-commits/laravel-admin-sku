@@ -14,8 +14,17 @@
     SKU.prototype.init = function () {
         let _this = this;
         _this.warp.find('.sku_attr_key_val').on('click', '.Js_add_attr_val', function () {
+            var imageChecked = $(this).parents('td').prev().find('.check-Image').prop('checked');
+            if (imageChecked === true) {
+                var imageHtml = '<div class="sku_Image">';
+            } else {
+                var imageHtml = '<div class="sku_Image" style="display: none">';
+            }
             let html = '<div class="sku_attr_val_item sku_attr_num">' +
                 '<div class="sku_attr_val_input">' +
+                imageHtml +
+                '<input value="" type="hidden" class="form-control"><span class="Js_sku_upload">+</span>' +
+                '</div>' +
                 '<input type="text" class="form-control">' +
                 '</div>' +
                 '<span class="btn btn-danger Js_remove_attr_val"><i class="glyphicon glyphicon-remove"></i></span>' +
@@ -35,11 +44,14 @@
         // 绑定添加属性名事件
         _this.warp.find('.Js_add_attr_name').click(function () {
             let html = '<tr>' +
-                '<td><input type="text" class="form-control"></td>' +
+                '<td><input type="text" class="form-control"><input type="checkbox" class="check-Image"> <span style="color: #0d6aad">添加规格图片</span></td>' +
                 '<td>' +
                 '<div class="sku_attr_val_warp">' +
                 '<div class="sku_attr_val_item sku_attr_num">' +
                 '<div class="sku_attr_val_input">' +
+                '<div class="sku_Image" style="display: none">' +
+                '<input value="" type="hidden" class="form-control"><span class="Js_sku_upload">+</span>' +
+                '</div>' +
                 '<input type="text" class="form-control">' +
                 '</div>' +
                 '<span class="btn btn-danger Js_remove_attr_val"><i class="glyphicon glyphicon-remove"></i></span>' +
@@ -54,6 +66,15 @@
                 '</td>' +
                 '</tr>';
             _this.warp.find('.sku_attr_key_val tbody').append(html)
+        });
+
+        // 自定义规格图片上传
+        _this.warp.find('.sku_attr_key_val').on('click','.check-Image', function (){
+            if ($(this).prop('checked') === true) {
+                $(this).parents('td').next().find('.sku_Image').show();
+            } else {
+                $(this).parents('td').next().find('.sku_Image').hide();
+            }
         });
 
         // 绑定移除属性名事件
@@ -88,7 +109,7 @@
         });
 
         // SKU图片上传
-        _this.warp.find('.sku_edit_warp tbody').on('click', '.Js_sku_upload', function () {
+        _this.warp.find('.sku_Image').on('click', '.Js_sku_upload', function () {
             _this.upload($(this))
         });
 
@@ -182,7 +203,6 @@
                 thead_html += '<th>' + attr_name + '</th>'
             });
             thead_html += '<th style="display: none">sku</th>';
-            thead_html += '<th style="width: 100px">图片</th>';
             thead_html += '<th style="width: 100px">市场价 <input value="' + _this.commonMarketPrice + '" type="text" style="width: 50px" class="Js_market_price"></th>';
             thead_html += '<th style="width: 100px">销售价 <input value="' + _this.commonPrice + '" type="text" style="width: 50px" class="Js_price"></th>';
             thead_html += '<th style="width: 100px">库存 <input value="' + _this.commonStock + '" type="text" style="width: 50px" class="Js_stock"></th>';
@@ -216,7 +236,6 @@
                     var skuUuid = _this.commonSku;
                 }
                 tbody_html += '<td data-field="sku_no" style="display: none"><input value="' + skuUuid + '" type="text" class="form-control"></td>';
-                tbody_html += '<td data-field="cover"><input value="" type="hidden" class="form-control"><span class="Js_sku_upload">+</span><span class="Js_sku_del_pic">清空</span></td>';
                 tbody_html += '<td data-field="marketprice"><input value="' + _this.commonMarketPrice + '" type="text" class="form-control"></td>';
                 tbody_html += '<td data-field="price"><input value="' + _this.commonPrice + '" type="text" class="form-control"></td>';
                 tbody_html += '<td data-field="stock"><input value="' + _this.commonStock + '" type="text" class="form-control"></td>';

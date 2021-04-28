@@ -8,6 +8,21 @@
 .sku_warp .sku_attr_val_warp{
     clear: both;
 }
+.sku_warp .sku_attr_val_warp .Js_sku_upload{
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    font-size: 32px;
+    line-height: 40px;
+    border: 1px solid #d2d6de;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    user-select: none;
+    background-size: 100%;
+    background-repeat:no-repeat;
+}
+
 .sku_warp .sku_attr_val_warp:after{
     content: ' ';
     display: block;
