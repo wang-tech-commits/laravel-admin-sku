@@ -27,7 +27,7 @@
                                         <div class="sku_Image" style="display: none">
                                             <input value="" type="hidden" class="form-control"><span class="Js_sku_upload">+</span>
                                         </div>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control sku_input_value">
                                     </div>
                                     <span class="btn btn-danger Js_remove_attr_val"><i
                                             class="glyphicon glyphicon-remove"></i></span>

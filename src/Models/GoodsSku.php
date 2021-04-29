@@ -27,4 +27,13 @@ class GoodsSku extends Model
     {
         return $this->belongsTo(GoodsSkuConfig::class, 'goods_sku_config_id');
     }
+
+    /**
+     * 商品是否可以购买
+     * @return bool
+     */
+    public function canBuy($qty = 1): bool
+    {
+        return $this->goods->status == 1 && $this->stock > $qty;
+    }
 }
