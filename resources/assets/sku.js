@@ -25,7 +25,7 @@
                 imageHtml +
                 '<input value="" type="hidden" class="form-control"><span class="Js_sku_upload">+</span>' +
                 '</div>' +
-                '<input type="text" class="form-control">' +
+                '<input type="text" class="form-control sku_input_value">' +
                 '</div>' +
                 '<span class="btn btn-danger Js_remove_attr_val"><i class="glyphicon glyphicon-remove"></i></span>' +
                 '</div>';
@@ -44,7 +44,7 @@
         // 绑定添加属性名事件
         _this.warp.find('.Js_add_attr_name').click(function () {
             let html = '<tr>' +
-                '<td><input type="text" class="form-control"><input type="checkbox" class="check-Image"> <span style="color: #0d6aad">添加规格图片</span></td>' +
+                '<td><input type="text" class="form-control"><input type="hidden" value="false" class="check-Image"></td>' +
                 '<td>' +
                 '<div class="sku_attr_val_warp">' +
                 '<div class="sku_attr_val_item sku_attr_num">' +
@@ -52,7 +52,7 @@
                 '<div class="sku_Image" style="display: none">' +
                 '<input value="" type="hidden" class="form-control"><span class="Js_sku_upload">+</span>' +
                 '</div>' +
-                '<input type="text" class="form-control">' +
+                '<input type="text" class="form-control sku_input_value">' +
                 '</div>' +
                 '<span class="btn btn-danger Js_remove_attr_val"><i class="glyphicon glyphicon-remove"></i></span>' +
                 '</div>' +
@@ -69,7 +69,7 @@
         });
 
         // 自定义规格图片上传
-        _this.warp.find('.sku_attr_key_val').on('click','.check-Image', function (){
+        _this.warp.find('.sku_attr_key_val').on('click', '.check-Image', function () {
             if ($(this).prop('checked') === true) {
                 $(this).parents('td').next().find('.sku_Image').show();
             } else {
@@ -160,29 +160,45 @@
     // 获取SKU属性
     SKU.prototype.getSkuAttr = function () {
         let attr = {}; // 所有属性
+        let attr_form = {}; // 所有属性
         let _this = this;
         let trs = _this.warp.find('.sku_attr_key_val tbody tr');
         trs.each(function () {
             let tr = $(this);
             let attr_name = tr.find('td:eq(0) input').val(); // 属性名
+            let attr_is_image = tr.find('td:eq(0) .check-Image').prop('checked'); // 是否有图片
             let attr_val = []; // 属性值
+            let attr_form_val = []; // 属性值
             if (attr_name) {
                 // 获取对应的属性值
-                tr.find('td:eq(1) input').each(function () {
+                tr.find('td:eq(1) .sku_input_value').each(function () {
                     let ipt_val = $(this).val();
+                    if (attr_is_image === true) {
+                        var pit_cover = $(this).prev().find('input').val();
+                    } else {
+                        var pit_cover = '';
+                    }
                     if (ipt_val) {
-                        attr_val.push(ipt_val)
+                        attr_val.push({
+                            'image': pit_cover,
+                            'value': ipt_val,
+                        });
+                        attr_form_val.push(ipt_val);
                     }
                 });
             }
             if (attr_val.length) {
-                attr[attr_name] = attr_val;
+                attr[attr_name] = {
+                    'isImage': attr_is_image ? 1 : 0,
+                    'value': attr_val,
+                };
+                attr_form[attr_name] = attr_form_val;
             }
         });
 
         if (JSON.stringify(_this.attrs) !== JSON.stringify(attr)) {
             _this.attrs = attr;
-
+            _this.attrs_form = attr_form;
             let old_val = _this.warp.find('.Js_sku_input').val();
             old_val = JSON.parse(old_val);
             _this.SKUForm(old_val.sku)
@@ -220,7 +236,7 @@
                     });
                     return ret;
                 }, [[]]);
-            })(...Object.values(_this.attrs));
+            })(...Object.values(_this.attrs_form));
 
             // 根据计算的笛卡尔积渲染tbody
             let tbody_html = '';
@@ -319,6 +335,7 @@
                     if (res.code == 1) {
                         obj.css('background-image', 'url(' + res.data.showpath + ')');
                         obj.parent().find('input').val(res.data.path);
+                        _this.getSkuAttr()
                         _this.processSku()
                     }
                 }
@@ -326,18 +343,19 @@
         }
     };
 
-    function  uuid() {
-        var  s = [];
-        var  hexDigits =  "0123456789abcdef" ;
-        for  ( var  i = 0; i < 36; i++) {
+    function uuid() {
+        var s = [];
+        var hexDigits = "0123456789abcdef";
+        for (var i = 0; i < 36; i++) {
             s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
         }
-        s[14] =  "4" ;   // bits 12-15 of the time_hi_and_version field to 0010
+        s[14] = "4";   // bits 12-15 of the time_hi_and_version field to 0010
         s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);   // bits 6-7 of the clock_seq_hi_and_reserved to 01
-        s[8] = s[13] = s[18] = s[23] =  "-" ;
+        s[8] = s[13] = s[18] = s[23] = "-";
 
-        var  uuid = s.join( "" );
-        return  uuid;
+        var uuid = s.join("");
+        return uuid;
     }
+
     window.GoodsSKU = SKU;
 })();

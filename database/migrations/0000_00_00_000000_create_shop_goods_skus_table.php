@@ -22,7 +22,6 @@ class CreateShopGoodsSkusTable extends Migration
             $table->decimal('market_price', '20', '2');
             $table->decimal('price', '20', '2');
             $table->integer('stock')->unsigned();
-            $table->string('cover')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -35,6 +34,6 @@ class CreateShopGoodsSkusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teachers');
+        Schema::dropIfExists('shop_goods_skus');
     }
 }

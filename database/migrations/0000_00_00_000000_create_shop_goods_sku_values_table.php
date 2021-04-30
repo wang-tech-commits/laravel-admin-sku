@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShopGoodsSkuConfigsTable extends Migration
+class CreateShopGoodsSkuValuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateShopGoodsSkuConfigsTable extends Migration
      */
     public function up()
     {
-        Schema::create('shop_goods_sku_configs', function (Blueprint $table) {
+        Schema::create('shop_goods_sku_values', function (Blueprint $table) {
             $table->id();
             $table->foreignId('goods_id');
-            $table->json('sku_config');
-            $table->json('sku_attr_config');
+            $table->foreignId('goods_sku_key_id');
+            $table->string('name');
+            $table->string('cover')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +31,6 @@ class CreateShopGoodsSkuConfigsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shop_goods_sku_configs');
+        Schema::dropIfExists('shop_goods_sku_values');
     }
 }
