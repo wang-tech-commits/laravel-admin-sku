@@ -30,6 +30,9 @@
                 '<span class="btn btn-danger Js_remove_attr_val"><i class="glyphicon glyphicon-remove"></i></span>' +
                 '</div>';
             $(this).before(html);
+            _this.warp.find('.sku_Image').on('click', '.Js_sku_upload', function () {
+                _this.upload($(this))
+            });
         });
 
         // 绑定属性值移除事件
@@ -75,6 +78,9 @@
             } else {
                 $(this).parents('td').next().find('.sku_Image').hide();
             }
+            _this.warp.find('.sku_Image').on('click', '.Js_sku_upload', function () {
+                _this.upload($(this))
+            });
         });
 
         // 绑定移除属性名事件

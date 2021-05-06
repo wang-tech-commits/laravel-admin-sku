@@ -16,8 +16,8 @@ class CreateShopGoodsSkuConfigsTable extends Migration
         Schema::create('shop_goods_sku_configs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('goods_id');
-            $table->json('sku_config');
-            $table->json('sku_attr_config');
+            $table->jsonb('sku_config');
+            $table->jsonb('sku_attr_config');
             $table->timestamps();
         });
     }
