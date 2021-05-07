@@ -135,6 +135,7 @@
             let attr_names = old_val.attrs;
             let tbody = _this.warp.find('.sku_attr_key_val tbody');
             let attr_keys = Object.keys(attr_names);
+            let attr_form = {}; // 所有属性
             let attr_keys_len = attr_keys.length;
             attr_keys.forEach(function (attr_key, index) {
                 // 规格名
@@ -142,10 +143,10 @@
                 tr.find('td:eq(0) input').val(attr_key);
                 // 规格值
                 let attr_val_td = tr.find('td:eq(1)');
-                let attr_vals = attr_names[attr_key];
+                let attr_vals = attr_names[attr_key].value;
                 let attr_vals_len = attr_vals.length;
                 attr_vals.forEach(function (attr_val, index_2) {
-                    attr_val_td.find('input').eq(index_2).val(attr_val);
+                    attr_val_td.find('.sku_input_value').eq(index_2).val(attr_val.value);
                     if (index_2 < attr_vals_len - 1) {
                         attr_val_td.find('.Js_add_attr_val').trigger('click');
                     }
@@ -155,7 +156,37 @@
                     tbody.find('tr').eq(0).find('td:eq(2) .Js_add_attr_name').trigger('click');
                 }
             });
+            let trs = _this.warp.find('.sku_attr_key_val tbody tr');
+            trs.each(function () {
+                let tr = $(this);
+                let attr_name = tr.find('td:eq(0) input').val(); // 属性名
+                let attr_is_image = tr.find('td:eq(0) .check-Image').prop('checked'); // 是否有图片
+                let attr_form_val = []; // 属性值
+                let attr_val = []; // 属性值
+                if (attr_name) {
+                    // 获取对应的属性值
+                    tr.find('td:eq(1) .sku_input_value').each(function () {
+                        let ipt_val = $(this).val();
+                        if (attr_is_image === true) {
+                            var pit_cover = $(this).prev().find('input').val();
+                        } else {
+                            var pit_cover = '';
+                        }
+                        if (ipt_val) {
+                            attr_val.push({
+                                'image': pit_cover,
+                                'value': ipt_val,
+                            });
+                            attr_form_val.push(ipt_val);
+                        }
+                    });
+                }
+                if (attr_val.length) {
+                    attr_form[attr_name] = attr_form_val;
+                }
+            });
             // 生成具体的SKU配置表单
+            _this.attrs_form = attr_form;
             _this.attrs = old_val.attrs;
             _this.SKUForm(old_val.sku);
         } else {

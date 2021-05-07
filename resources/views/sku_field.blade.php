@@ -18,7 +18,7 @@
                     <tr>
                         <td>
                             <input type="text" class="form-control">
-                            <input type="checkbox" class="check-Image"> <span style="color: #0d6aad">添加规格图片</span>
+{{--                            <input type="checkbox" class="check-Image"> <span style="color: #0d6aad">添加规格图片</span>--}}
                         </td>
                         <td>
                             <div class="sku_attr_val_warp">
